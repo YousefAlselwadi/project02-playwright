@@ -61,7 +61,8 @@ test.describe("project02", () => {
         await expect(coursesPage.cartItems).toBeVisible();
         const coursePriceText = await coursesPage.coursePrices.nth(0).textContent();
         const coursePrice = parseFloat(coursePriceText?.replace(/[^0-9.]/g, '') || '0');
-        const expectedTotalPrice = coursePrice - 20;
+        const discount = coursePrice * 0.20
+        const expectedTotalPrice = coursePrice - discount;
         const totalPriceText = await coursesPage.totalPrice.textContent();
         const totalPrice = parseFloat(totalPriceText?.replace(/[^0-9.]/g, '') || '0');
         expect(totalPrice).toBe(expectedTotalPrice);
@@ -85,7 +86,9 @@ test.describe("project02", () => {
         const secondCoursePriceText = await coursesPage.coursePrices.nth(1).textContent();
         const firstCoursePrice = parseFloat(firstCoursePriceText?.replace(/[^0-9.]/g, '') || '0');
         const secondCoursePrice = parseFloat(secondCoursePriceText?.replace(/[^0-9.]/g, '') || '0');
-        const expectedTotalPrice = firstCoursePrice + secondCoursePrice - 28;
+        const firstCourseDiscount = firstCoursePrice * 0.20;
+        const secondCourseDiscount = secondCoursePrice * 0.10;
+        const expectedTotalPrice = (firstCoursePrice - firstCourseDiscount) + (secondCoursePrice - secondCourseDiscount);
         const totalPriceText = await coursesPage.totalPrice.textContent();
         const displayedTotalPrice = parseFloat(totalPriceText?.replace(/[^0-9.]/g, '') || '0');
         expect(displayedTotalPrice).toBe(expectedTotalPrice);
@@ -110,11 +113,15 @@ test.describe("project02", () => {
 
         const firstCoursePriceText = await coursesPage.coursePrices.nth(0).textContent();
         const secondCoursePriceText = await coursesPage.coursePrices.nth(1).textContent();
-        const thirdCoursePriceText = await coursesPage.coursePrices.nth(1).textContent();
+        const thirdCoursePriceText = await coursesPage.coursePrices.nth(2).textContent();
         const firstCoursePrice = parseFloat(firstCoursePriceText?.replace(/[^0-9.]/g, '') || '0');
         const secondCoursePrice = parseFloat(secondCoursePriceText?.replace(/[^0-9.]/g, '') || '0');
         const thirdCoursePrice = parseFloat(thirdCoursePriceText?.replace(/[^0-9.]/g, '') || '0');
-        const expectedTotalPrice = firstCoursePrice + secondCoursePrice + thirdCoursePrice - 28;
+        const firstCourseDiscount = firstCoursePrice * 0.20;
+        const secondCourseDiscount = secondCoursePrice * 0.10;
+        const expectedTotalPrice = (firstCoursePrice - firstCourseDiscount) 
+        + (secondCoursePrice - secondCourseDiscount)
+        + thirdCoursePrice;
         const totalPriceText = await coursesPage.totalPrice.textContent();
         const displayedTotalPrice = parseFloat(totalPriceText?.replace(/[^0-9.]/g, '') || '0');
         expect(displayedTotalPrice).toBe(expectedTotalPrice);
